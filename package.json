@@ -20,7 +20,6 @@
   "scripts": {
     "demo": "bun run example/index.ts",
     "demo-secure": "bun run example/secure-demo.ts",
-    "prepare": "husky",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
