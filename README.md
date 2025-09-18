@@ -1,11 +1,12 @@
 # Subtyl Socket
-*Being a Most Excellent Library for the Secure Exchange of Cryptographic Keys Between Networked Parties*
+
+_Being a Most Excellent Library for the Secure Exchange of Cryptographic Keys Between Networked Parties_
 
 ---
 
 ## Preface
 
-> *"An investment in knowledge pays the best interest."*
+> _"An investment in knowledge pays the best interest."_
 > — B. Franklin, Poor Richard's Almanack
 
 Dear Reader, permit me to introduce to your consideration this most ingenious contrivance for the safe passage of communications through the treacherous waters of the modern internet. As I have often observed that "he that goes a borrowing goes a sorrowing," so too must we acknowledge that he who transmits secrets without proper encryption goes a-weeping.
@@ -15,6 +16,7 @@ Dear Reader, permit me to introduce to your consideration this most ingenious co
 **Subtyl Socket** provides two distinct implementations for secure key exchange:
 
 ### The Secure Implementation (Recommended)
+
 - **SecureProvider** & **SecureConsumer** - Built upon RFC 5869 HKDF with proper key confirmation
 - **Mutual Authentication** - Both parties verify each other's identity cryptographically
 - **Context Separation** - Different keys derived for different purposes
@@ -22,8 +24,9 @@ Dear Reader, permit me to introduce to your consideration this most ingenious co
 - **Memory Security** - Sensitive data is properly zeroed after use
 
 ### The Legacy Implementation (Deprecated)
+
 - **Provider** & **Consumer** - Simple but flawed SHA-256 approach
-- *Use only for educational purposes or when upgrading existing systems*
+- _Use only for educational purposes or when upgrading existing systems_
 
 ## The Art of Secure Usage
 
@@ -44,40 +47,41 @@ import { WebSocketServer } from 'ws';
 
 const wss = new WebSocketServer({ port: 8080 });
 
-wss.on('connection', (socket) => {
-    const provider = new SecureProvider();
-    let keys: { encryptionKey: Buffer; authenticationKey: Buffer } | null = null;
+wss.on('connection', socket => {
+  const provider = new SecureProvider();
+  let keys: { encryptionKey: Buffer; authenticationKey: Buffer } | null = null;
 
-    // Step 1: Initiate handshake
-    provider.startHandshake(socket);
+  // Step 1: Initiate handshake
+  provider.startHandshake(socket);
 
-    socket.on('message', (data) => {
-        const message = JSON.parse(data.toString());
+  socket.on('message', data => {
+    const message = JSON.parse(data.toString());
 
-        if (message.type === 'handshake-response') {
-            // Step 2: Process client's response
-            const result = provider.handleResponse(message);
+    if (message.type === 'handshake-response') {
+      // Step 2: Process client's response
+      const result = provider.handleResponse(message);
 
-            if (result.type === 'send-confirmation') {
-                socket.send(JSON.stringify({
-                    type: 'key-confirmation-request',
-                    confirmationMac: result.confirmationMac
-                }));
-            }
-        }
-        else if (message.type === 'key-confirmation') {
-            // Step 3: Verify final confirmation
-            const result = provider.handleResponse(message);
+      if (result.type === 'send-confirmation') {
+        socket.send(
+          JSON.stringify({
+            type: 'key-confirmation-request',
+            confirmationMac: result.confirmationMac,
+          }),
+        );
+      }
+    } else if (message.type === 'key-confirmation') {
+      // Step 3: Verify final confirmation
+      const result = provider.handleResponse(message);
 
-            if (result.confirmed) {
-                keys = provider.getDerivedKeys();
-                console.log('🔐 Server: Secure keys established!');
-                // Now use keys for encrypted communication
-            }
-        }
-    });
+      if (result.confirmed) {
+        keys = provider.getDerivedKeys();
+        console.log('🔐 Server: Secure keys established!');
+        // Now use keys for encrypted communication
+      }
+    }
+  });
 
-    socket.on('close', () => provider.destroy());
+  socket.on('close', () => provider.destroy());
 });
 ```
 
@@ -92,23 +96,21 @@ const consumer = new SecureConsumer();
 const socket = new WebSocket('ws://localhost:8080');
 let keys: { encryptionKey: Buffer; authenticationKey: Buffer } | null = null;
 
-socket.on('message', (data) => {
-    const result = consumer.handleMessage(data.toString());
+socket.on('message', data => {
+  const result = consumer.handleMessage(data.toString());
 
-    if (result.type === 'handshake-response') {
-        // Step 1: Respond to server's handshake
-        socket.send(JSON.stringify(result.response));
-    }
-    else if (result.type === 'key-confirmation') {
-        // Step 2: Send final confirmation
-        keys = consumer.getDerivedKeys();
-        socket.send(JSON.stringify(result.response));
-        console.log('🔐 Client: Secure keys established!');
-        // Now use keys for encrypted communication
-    }
-    else if (result.type === 'error') {
-        console.error('Handshake failed:', result.error);
-    }
+  if (result.type === 'handshake-response') {
+    // Step 1: Respond to server's handshake
+    socket.send(JSON.stringify(result.response));
+  } else if (result.type === 'key-confirmation') {
+    // Step 2: Send final confirmation
+    keys = consumer.getDerivedKeys();
+    socket.send(JSON.stringify(result.response));
+    console.log('🔐 Client: Secure keys established!');
+    // Now use keys for encrypted communication
+  } else if (result.type === 'error') {
+    console.error('Handshake failed:', result.error);
+  }
 });
 
 socket.on('close', () => consumer.destroy());
@@ -125,12 +127,12 @@ import { BaseEncryptionPlugin, EncryptionKeys } from 'subtyl-socket';
 
 // Extend for custom encryption algorithms
 abstract class MyCustomPlugin extends BaseEncryptionPlugin {
-    constructor(keys?: EncryptionKeys) {
-        super("my-algorithm-name", keys);
-    }
+  constructor(keys?: EncryptionKeys) {
+    super('my-algorithm-name', keys);
+  }
 
-    abstract encrypt(plaintext: string): EncryptionResult;
-    abstract decrypt(encrypted: EncryptionResult): string;
+  abstract encrypt(plaintext: string): EncryptionResult;
+  abstract decrypt(encrypted: EncryptionResult): string;
 }
 ```
 
@@ -144,12 +146,12 @@ const keys = provider.getDerivedKeys();
 const encryption = new MessageEncryptionPlugin(keys);
 
 // Encrypt and send messages
-const encryptedMessage = encryption.wrapMessage("chat", "Secret message");
+const encryptedMessage = encryption.wrapMessage('chat', 'Secret message');
 socket.send(encryptedMessage);
 
 // Receive and decrypt messages
 const decryptedData = encryption.unwrapMessage(receivedData);
-console.log("Decrypted:", decryptedData?.payload);
+console.log('Decrypted:', decryptedData?.payload);
 
 // Always clean up
 encryption.destroy();
@@ -175,33 +177,38 @@ bun run encryption-plugin.test.ts  # Tests the encryption plugin specifically
 
 ## The Philosophical and Technical Foundation
 
-> *"By failing to prepare, you are preparing to fail."*
+> _"By failing to prepare, you are preparing to fail."_
 
 This library embodies the highest principles of cryptographic engineering:
 
 ### 1. **Proper Key Derivation (HKDF)**
+
 - Follows RFC 5869 specification precisely
 - Uses HMAC-SHA256 for both extract and expand phases
 - Provides computational security guarantees
 - Supports context separation for different key purposes
 
 ### 2. **Mutual Authentication**
+
 - Both parties prove knowledge of the shared secret
 - Prevents man-in-the-middle attacks through key confirmation
 - Uses constant-time comparison to prevent timing attacks
 - Session IDs prevent replay attacks
 
 ### 3. **Forward Secrecy**
+
 - Ephemeral ECDH keys (prime256v1 curve)
 - Session keys cannot be recovered even if long-term keys are compromised
 - Each handshake creates unique key material
 
 ### 4. **Memory Security**
+
 - All sensitive buffers are zeroed after use
 - Explicit `destroy()` methods for secure cleanup
 - Prevents key material from remaining in memory
 
 ### 5. **Protocol Security**
+
 - Version negotiation prevents downgrade attacks
 - Algorithm negotiation ensures strong cryptography
 - Proper nonce handling prevents replay attacks
@@ -211,16 +218,19 @@ This library embodies the highest principles of cryptographic engineering:
 The secure protocol operates through these carefully orchestrated phases:
 
 ### Phase I: Initialization
+
 - Provider generates ephemeral ECDH key pair
 - Creates cryptographically secure nonce (32 bytes)
 - Announces supported algorithms and protocol version
 
 ### Phase II: Key Agreement
+
 - Consumer generates ephemeral ECDH key pair
 - Creates cryptographically secure nonce (32 bytes)
 - Both parties compute identical ECDH shared secret
 
 ### Phase III: Key Derivation
+
 - Combined nonces form HKDF salt
 - Shared secret becomes HKDF input key material
 - Three distinct keys derived with context separation:
@@ -229,6 +239,7 @@ The secure protocol operates through these carefully orchestrated phases:
   - Confirmation key: `HKDF(secret, salt, "SubtylSocket-KeyConfirmation")`
 
 ### Phase IV: Mutual Confirmation
+
 - Each party proves possession of derived keys
 - HMAC-SHA256 used for key confirmation messages
 - Constant-time comparison prevents timing attacks
@@ -236,18 +247,20 @@ The secure protocol operates through these carefully orchestrated phases:
 
 ## Words of Gravest Caution
 
-> *"Security without liberty is tyranny; liberty without security is anarchy."*
+> _"Security without liberty is tyranny; liberty without security is anarchy."_
 
 While this implementation provides strong cryptographic foundations, the prudent engineer must remember:
 
 ### Critical Security Requirements
-- **Always use the Secure* classes** - The legacy classes are cryptographically broken
+
+- **Always use the Secure\* classes** - The legacy classes are cryptographically broken
 - **Verify handshake completion** - Check `isHandshakeConfirmed()` before using keys
 - **Handle errors properly** - Any error during handshake indicates potential attack
 - **Use authenticated encryption** - The derived keys require proper AEAD construction
 - **Implement proper transport security** - This library handles key agreement, not message encryption
 
 ### Recommended Practices
+
 - Generate fresh instances for each connection
 - Never reuse session keys across connections
 - Implement proper certificate validation for initial authentication
@@ -256,6 +269,7 @@ While this implementation provides strong cryptographic foundations, the prudent
 - Log security events for monitoring
 
 ### Known Limitations
+
 - No built-in replay protection beyond session scope
 - Requires secure transport for initial key exchange messages
 - Does not handle key rotation or rekeying
@@ -263,7 +277,7 @@ While this implementation provides strong cryptographic foundations, the prudent
 
 ## Contributing to the Common Good
 
-> *"Tell me and I forget, teach me and I may remember, involve me and I learn."*
+> _"Tell me and I forget, teach me and I may remember, involve me and I learn."_
 
 This implementation has been subjected to rigorous testing:
 
@@ -288,12 +302,12 @@ Remember always that in cryptography, as in Franklin's electrical experiments, "
 
 ---
 
-*Benjamin Franklin would have marveled at the mathematical elegance of elliptic curves and the precision with which we can now prove the security of our cryptographic constructions. In his spirit of careful experimentation and clear documentation of results, may this library serve as a reliable foundation for your secure communications.*
+_Benjamin Franklin would have marveled at the mathematical elegance of elliptic curves and the precision with which we can now prove the security of our cryptographic constructions. In his spirit of careful experimentation and clear documentation of results, may this library serve as a reliable foundation for your secure communications._
 
 **Version**: Cryptographically sound
 **License**: Use freely, but use wisely
 **Security Audit**: Self-audited with comprehensive test coverage
 **Author**: A humble servant of proper cryptography
 
-> *"The Constitution only gives people the right to pursue happiness. You have to catch it yourself."*
+> _"The Constitution only gives people the right to pursue happiness. You have to catch it yourself."_
 > — And you must secure it yourself, with proper cryptography.

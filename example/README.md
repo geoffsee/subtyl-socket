@@ -5,16 +5,19 @@ This example demonstrates the complete encrypted WebSocket communication flow wi
 ## What it shows
 
 ✅ **Secure handshake process**
+
 - ECDH key exchange with proper nonce handling
 - Mutual key confirmation with HMAC verification
 - Key derivation using HKDF
 
 ✅ **Encryption in action**
+
 - Shows raw plaintext before encryption
 - Displays encrypted data being transmitted over the wire
 - Shows successful decryption on both sides
 
 ✅ **Separate processes**
+
 - Server and client run as independent processes
 - Clear separation of concerns
 - Real network communication over WebSocket

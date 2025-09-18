@@ -1,18 +1,50 @@
 {
   "name": "subtyl-socket",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Secure WebSocket communication with encrypted data transmission and perfect forward secrecy",
   "main": "src/index.ts",
   "module": "src/index.ts",
   "type": "module",
-  "files": ["src/*.ts"],
-  "keywords": ["websocket", "encryption", "secure", "crypto", "aes", "ecdh", "socket"],
+  "files": [
+    "src/*.ts"
+  ],
+  "keywords": [
+    "websocket",
+    "encryption",
+    "secure",
+    "crypto",
+    "aes",
+    "ecdh",
+    "socket"
+  ],
   "scripts": {
     "demo": "bun run example/index.ts",
-    "demo-secure": "bun run example/secure-demo.ts"
+    "demo-secure": "bun run example/secure-demo.ts",
+    "prepare": "husky",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "quality": "bun run lint && bun run typecheck && bun run format:check && bun test"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/ws": "^8.18.1",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.6",
+    "prettier": "^3.6.2",
     "ws": "^8.18.3"
   },
   "peerDependencies": {
