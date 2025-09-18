@@ -24,6 +24,6 @@ jobs:
         run: bun install --no-scripts
 
       - name: Publish to npm
-        run: bun publish
+        run: bun publish --no-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
