@@ -1,0 +1,21 @@
+{
+  "name": "subtyl-socket",
+  "version": "1.0.3",
+  "description": "Secure WebSocket communication with encrypted data transmission and perfect forward secrecy",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "type": "module",
+  "files": ["src/*.ts"],
+  "keywords": ["websocket", "encryption", "secure", "crypto", "aes", "ecdh", "socket"],
+  "scripts": {
+    "demo": "bun run example/index.ts",
+    "demo-secure": "bun run example/secure-demo.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "ws": "^8.18.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
