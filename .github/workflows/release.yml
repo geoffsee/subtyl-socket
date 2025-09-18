@@ -24,6 +24,6 @@ jobs:
         run: bun install --no-scripts
 
       - name: Publish to npm
-        run: bun publish --no-scripts
+        run: bunx npm login && bun publish --no-scripts
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
