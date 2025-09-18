@@ -33,7 +33,7 @@ Dear Reader, permit me to introduce to your consideration this most ingenious co
 ### Installing the Apparatus
 
 ```bash
-bun install
+npm install subtyl-socket
 ```
 
 ### The Proper Method (Secure Implementation)
