@@ -1,4 +1,14 @@
-# Subtyl Socket
+<h1 align="center">
+    subtyl-socket
+</h1>
+<p align="center">
+
+</p>
+<p align="center">
+  <img src="https://github.com/geoffsee/subtyl-socket/blob/master/subtyl-socket.png?raw=true" width="90%" />
+</p>
+
+<br/>
 
 [![Test](https://github.com/geoffsee/subtyl-socket/actions/workflows/test.yml/badge.svg)](https://github.com/geoffsee/subtyl-socket/actions/workflows/test.yml)
 [![CI](https://github.com/geoffsee/subtyl-socket/actions/workflows/ci.yml/badge.svg)](https://github.com/geoffsee/subtyl-socket/actions/workflows/ci.yml)
