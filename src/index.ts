@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2025 Geoff Seemueller. All rights reserved.
+ * This software and associated documentation files are proprietary and confidential.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+
 import { Consumer } from './Consumer.ts';
 import { Provider } from './Provider.ts';
 import { SecureConsumer } from './SecureConsumer.ts';

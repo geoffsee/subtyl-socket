@@ -1,9 +1,10 @@
 {
   "name": "subtyl-socket",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Secure WebSocket communication with encrypted data transmission and perfect forward secrecy",
   "main": "src/index.ts",
   "module": "src/index.ts",
+  "license": "UNLICENSED",
   "type": "module",
   "files": [
     "src/*.ts"

@@ -3,6 +3,7 @@
 [![Test](https://github.com/geoffsee/subtyl-socket/actions/workflows/test.yml/badge.svg)](https://github.com/geoffsee/subtyl-socket/actions/workflows/test.yml)
 [![CI](https://github.com/geoffsee/subtyl-socket/actions/workflows/ci.yml/badge.svg)](https://github.com/geoffsee/subtyl-socket/actions/workflows/ci.yml)
 [![Release](https://github.com/geoffsee/subtyl-socket/actions/workflows/release.yml/badge.svg)](https://github.com/geoffsee/subtyl-socket/actions/workflows/release.yml)
+[![License](https://img.shields.io/badge/license-Proprietary-red.svg)](LICENSE)
 
 _Being a Most Excellent Library for the Secure Exchange of Cryptographic Keys Between Networked Parties_
 

@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2025 Geoff Seemueller. All rights reserved.
+ * This software and associated documentation files are proprietary and confidential.
+ * Unauthorized copying, distribution, or use is strictly prohibited.
+ */
+
 import { createECDH, createHash, randomBytes } from 'crypto';
 
 export class Provider {
