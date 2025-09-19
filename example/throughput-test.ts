@@ -165,6 +165,7 @@ function generateAdvancedReport(results: TestResult[], baselineResults: TestResu
   // Calculate actual encryption overhead
   const overheadPercentages = results.map((r, i) => {
     const baseline = baselineResults[i];
+    if (!baseline) return 0;
     return ((r.avgTime - baseline.avgTime) / baseline.avgTime) * 100;
   });
   const avgOverhead = overheadPercentages.reduce((a, b) => a + b, 0) / overheadPercentages.length;
@@ -208,6 +209,7 @@ function generateAdvancedReport(results: TestResult[], baselineResults: TestResu
   results.forEach((r, i) => {
     const sizeStr = `${r.size / (1024 * 1024)}MB`;
     const baseline = baselineResults[i];
+    if (!baseline) return;
     const overhead = (((r.avgTime - baseline.avgTime) / baseline.avgTime) * 100).toFixed(1);
     const ciLower = r.confidenceInterval[0].toFixed(1);
     const ciUpper = r.confidenceInterval[1].toFixed(1);
