@@ -1,8 +1,8 @@
 # Subtyl Socket
+
 [![Test](https://github.com/geoffsee/subtyl-socket/actions/workflows/test.yml/badge.svg)](https://github.com/geoffsee/subtyl-socket/actions/workflows/test.yml)
 [![CI](https://github.com/geoffsee/subtyl-socket/actions/workflows/ci.yml/badge.svg)](https://github.com/geoffsee/subtyl-socket/actions/workflows/ci.yml)
 [![Release](https://github.com/geoffsee/subtyl-socket/actions/workflows/release.yml/badge.svg)](https://github.com/geoffsee/subtyl-socket/actions/workflows/release.yml)
-
 
 _Being a Most Excellent Library for the Secure Exchange of Cryptographic Keys Between Networked Parties_
 
@@ -176,6 +176,7 @@ To witness these marvels in operation and verify their security properties:
 ```bash
 bun test  # Runs all tests including cryptographic property verification
 bun run demo  # Demonstrates secure handshake with MessageEncryptionPlugin
+bun run test:throughput  # Comprehensive performance analysis with statistical rigor
 bun run encryption-plugin.test.ts  # Tests the encryption plugin specifically
 ```
 
@@ -315,3 +316,103 @@ _Benjamin Franklin would have marveled at the mathematical elegance of elliptic 
 
 > _"The Constitution only gives people the right to pursue happiness. You have to catch it yourself."_
 > — And you must secure it yourself, with proper cryptography.
+
+### Performance Analysis
+
+```bash
+bun run test:throughput
+```
+
+# 🚀 Subtyl Socket Throughput Analysis
+
+**Test Date:** SEP 18 2025
+**Framework:** Encrypted WebSocket with Secure Handshake
+**Iterations per test:** 20
+
+## 📊 Performance Summary
+
+- **Peak Throughput:** 320.1 MB/s
+- **Average Latency:** 17.2ms
+- **Encryption Overhead:** 129.7% (measured)
+- **Test Range:** 1MB - 10MB payloads
+
+## 📈 Throughput Performance
+
+```
+Throughput (MB/s)
+1MB   │████████████████████████████████████████████░░░░░░│ 284.7 MB/s
+5MB   │██████████████████████████████████████████████████│ 320.1 MB/s
+10MB  │████████████████████████████████████████████████░░│ 307.0 MB/s
+```
+
+## ⚡ Latency Analysis
+
+```
+Response Time (ms)
+1MB   │█████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░│ 3.5ms
+5MB   │████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░│ 15.6ms
+10MB  │██████████████████████████████████████████████████│ 32.6ms
+```
+
+## 📋 Detailed Results
+
+| Data Size | Encrypted (ms) | Baseline (ms) | Overhead | Throughput (MB/s) | Std Dev | 95% CI       |
+| --------- | -------------- | ------------- | -------- | ----------------- | ------- | ------------ |
+| 1MB       | 3.5            | 1.5           | +134.8%  | 284.7             | ±0.4    | [3.3, 3.7]   |
+| 5MB       | 15.6           | 6.2           | +151.8%  | 320.1             | ±0.9    | [15.2, 16.0] |
+| 10MB      | 32.6           | 16.1          | +102.5%  | 307.0             | ±1.9    | [31.7, 33.4] |
+
+## 🔄 Test Flow Architecture
+
+```mermaid
+graph TB
+    A[Client Connects] --> B{Encrypted Test?}
+    B -->|Yes| C[Secure Handshake]
+    B -->|No| G[Skip to Payload]
+    C --> D[Key Derivation]
+    D --> E[AES-256-GCM Encryption]
+    E --> F[Send Encrypted Payload]
+    G --> H[Send Plain Payload]
+    F --> I[Server Echo]
+    H --> I
+    I --> J[Measure Round-trip Time]
+    J --> K[Statistical Analysis]
+```
+
+## 📊 Encryption Overhead Analysis
+
+```mermaid
+xychart-beta
+    title "Encryption vs Baseline Performance"
+    x-axis ["1MB", "5MB", "10MB"]
+    y-axis "Response Time (ms)" 0 --> 35.8
+    line "Unencrypted Baseline" [1.5, 6.2, 16.1]
+    line "Encrypted (AES-256-GCM)" [3.5, 15.6, 32.6]
+```
+
+## 🔐 Security Architecture
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Server
+
+    Note over C,S: Secure Channel Establishment
+    C->>S: Handshake Init (ephemeral keys)
+    S->>C: Handshake Response
+    C->>S: Key Confirmation
+    S->>C: Confirmation ACK
+
+    Note over C,S: Encrypted Data Transfer
+    C->>S: AES-256-GCM Encrypted Payload
+    S->>C: AES-256-GCM Encrypted Echo
+
+    Note over C,S: Keys destroyed after session
+```
+
+## 🔒 Security Notes
+
+- End-to-end encryption with key derivation
+- Secure handshake protocol prevents MITM attacks
+- Performance includes full cryptographic overhead
+- Keys are ephemeral and destroyed after each test

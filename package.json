@@ -26,6 +26,7 @@
     "format:check": "prettier --check .",
     "typecheck": "tsc --noEmit",
     "test": "bun test",
+    "test:throughput": "bun run example/throughput-test.ts",
     "quality": "bun run lint && bun run typecheck && bun run format:check && bun test"
   },
   "lint-staged": {
