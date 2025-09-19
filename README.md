@@ -297,7 +297,7 @@ While this implementation provides strong cryptographic foundations, the prudent
 
 This implementation has been subjected to rigorous testing:
 
-- **17 comprehensive test cases** covering all security properties
+- **36 comprehensive test cases** covering all security properties
 - **HKDF implementation tested** against known vectors
 - **Constant-time operations verified** to prevent side-channel attacks
 - **Error handling tested** to ensure secure failure modes
